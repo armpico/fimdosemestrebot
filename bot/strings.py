@@ -1,0 +1,1 @@
+GREETING_TXT = "Olá! Sou um bot inline."
