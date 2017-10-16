@@ -18,7 +18,7 @@ def result():
 
 def start(bot, update):
     update.message.reply_text(strings.GREETING_TXT)
-    update.message.reply_text(f"O semestre de 2017 da UFSC acaba em {} dias.".format(result()))
+    update.message.reply_text("O semestre de 2017 da UFSC acaba em {} dias.".format(result()))
 
 def inline(bot, update):
     query = update.inline_query.query
