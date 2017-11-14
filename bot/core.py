@@ -1,8 +1,11 @@
-from datetime import datetime
+from datetime import datetime, date
+from telegram import InlineQueryResultArticle, InputTextMessageContent, ParseMode
+from telegram.ext import InlineQueryHandler
 
 import strings
 
-end_string = '7-12-2017'
+today = date.today()
+end_string = '07-12-2017'
 end_datetime = datetime.strptime(end_string , '%d-%m-%Y')
 end_string = end_datetime.strftime('%d-%m-%Y')
 
@@ -12,18 +15,30 @@ def result():
     return results[0]
 
 def start(bot, update):
-    update.message.reply_text("O semestre de 2017 da UFSC acaba em {} dias.".format(result()))
+    days_left = result()
+    if int(days_left) >= 0:
+        update.message.reply_text(f"O semestre de {today.year} da UFSC acaba em {result()} dias.")
+    else:
+        update.message.reply_text(strings.HORN + f"O semestre de {today.year} da UFSC acabou." + strings.PALM_TREE)
 
 def inline(bot, update):
+    days_left = result()
     query = update.inline_query.query
-    results = list()
 
     username = update.inline_query.from_user.username
-    phrase = '@{username}, faltam {} dias para o fim do semestre da UFSC.'.format(result())
+    if username is None:
+        username = update.inline_query.from_user.first_name
+    phrase = f'@{username}, faltam {days_left} dias para o fim do semestre da UFSC.'
 
-    results.append(InlineQueryResultArticle(id=1,
-        title='Fim do semestre em {} dias'.format(result()),
-        input_message_content=InputTextMessageContent(result(), parse_mode=ParseMode.MARKDOWN)))
+    results = list()
+
+    results.append(
+        InlineQueryResultArticle(
+            id=1,
+            title=f'Fim do semestre em {days_left} dias',
+            input_message_content=InputTextMessageContent(phrase)))
+
+    update.inline_query.answer(results)
 
 def get_help(bot, update):
     update.message.reply_text(strings.HELP_TXT)
