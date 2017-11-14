@@ -1,5 +1,5 @@
 import logging
-from telegram.ext import Updater, CommandHandler
+from telegram.ext import Updater, CommandHandler, InlineQueryHandler
 
 import core
 import config
@@ -18,6 +18,7 @@ job = updater.job_queue
 dp.add_error_handler(error_callback)
 dp.add_handler(CommandHandler('start', core.start))
 dp.add_handler(CommandHandler('help', core.get_help))
+dp.add_handler(InlineQueryHandler(core.inline))
 
 updater.start_polling()
 updater.idle()

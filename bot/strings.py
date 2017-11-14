@@ -6,4 +6,3 @@ HELP_TXT = """/start - Mostra os dias restantes
 /help - Aparece este texto super útil
 
 GitHub: https://www.github.com/abarichello/fimdosemestrebot"""
-
