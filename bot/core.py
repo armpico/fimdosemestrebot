@@ -5,14 +5,12 @@ from datetime import datetime, date
 from telegram import InlineQueryResultArticle, InputTextMessageContent, ParseMode
 
 TODAY = date.today()
-END_STRING = '07-12-2017'
-END_DATETIME = datetime.strptime(END_STRING, '%d-%m-%Y')
-END_STRING = END_DATETIME.strftime('%d-%m-%Y')
+END_STRING = '08-12-2017 23:59:59'
+END_DATETIME = datetime.strptime(END_STRING, '%d-%m-%Y %H:%M:%S')
 
 def result():
     time_delta = END_DATETIME - datetime.today()
-    results = str(time_delta).split(' ')
-    return results[0]
+    return time_delta
 
 def start(bot, update):
     days_left = result()
@@ -38,9 +36,13 @@ def inline(bot, update):
     update.inline_query.answer(results)
 
 def check(days_left):
-    if int(days_left) >= 0:
-        return f'O semestre de {TODAY.year} da UFSC acaba em {days_left} dias.'
-    return strings.HORN + f'O semestre de {TODAY.year} da UFSC acabou' + strings.PALM_TREE
+    if days_left.days < 0:
+        ret = f'{strings.PALM_TREE} O semestre de {TODAY.year} da UFSC acabou! {strings.CONFETTI} {strings.HORN}'
+    elif days_left.days == 0:
+        ret = f'{strings.PALM_TREE} O semestre de {TODAY.year} da UFSC acaba em {int(days_left.total_seconds() // 3600)} horas'
+    else:
+        ret = f'{strings.PALM_TREE} O semestre de {TODAY.year} da UFSC acaba em {days_left.days} dias'
+    return ret
 
 def get_help(bot, update):
     update.message.reply_text(strings.HELP_TXT)
