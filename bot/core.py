@@ -8,7 +8,7 @@ from telegram import InlineQueryResultArticle, InputTextMessageContent, ParseMod
 TODAY = datetime.today()
 
 def start(bot, update):
-    update.message.reply_text(check(get_delta()))
+    update.message.reply_text(check(get_end_date() - TODAY))
 
 # Read file and return datetime object
 def get_end_date():
@@ -16,16 +16,9 @@ def get_end_date():
     end_date = datetime.strptime(file.readline(), '%d-%m-%Y %H:%M') # Update end_date
     return end_date
 
-# Read file and return the days left
-def get_delta():
-    file = open('file.date', 'r')
-    end_date = datetime.strptime(file.readline(), '%d-%m-%Y %H:%M') # Update end_date
-    days_left = end_date - TODAY
-    return days_left
-
 # Function called when bot is used inline
 def inline(bot, update):
-    phrase = check(get_delta())
+    phrase = check(get_end_date() - TODAY)
 
     results = []
     results.append(
@@ -44,11 +37,11 @@ def check(days_left):
         adaptive_string = strings.END_STRINGS
 
     if days_left.days < 0:
-        ret = f'{strings.PALM_TREE} O semestre de {TODAY.year} da UFSC {adaptive_string[0]}! {strings.CONFETTI} {strings.HORN}'
+        ret = f'{strings.PALM_TREE} O semestre de {get_end_date().year} da UFSC {adaptive_string[0]}! {strings.CONFETTI} {strings.HORN}'
     elif days_left.days == 0:
-        ret = f'{strings.PALM_TREE} O semestre de {TODAY.year} da UFSC {adaptive_string[1]} em {int(days_left.total_seconds() // 3600)} horas'
+        ret = f'{strings.PALM_TREE} O semestre de {get_end_date().year} da UFSC {adaptive_string[1]} em {int(days_left.total_seconds() // 3600)} horas'
     else:
-        ret = f'{strings.PALM_TREE} O semestre de {TODAY.year} da UFSC {adaptive_string[1]} em {days_left.days} dias'
+        ret = f'{strings.PALM_TREE} O semestre de {get_end_date().year} da UFSC {adaptive_string[1]} em {days_left.days} dias'
     return ret
 
 # Used to change the target date
