@@ -1,48 +1,65 @@
 import re
 import strings
+import config
 
 from datetime import datetime, date
 from telegram import InlineQueryResultArticle, InputTextMessageContent, ParseMode
 
-TODAY = date.today()
-END_STRING = '08-12-2017 23:59:59'
-END_DATETIME = datetime.strptime(END_STRING, '%d-%m-%Y %H:%M:%S')
-
-def result():
-    time_delta = END_DATETIME - datetime.today()
-    return time_delta
+TODAY = datetime.today()
 
 def start(bot, update):
-    days_left = result()
-    update.message.reply_text(check(days_left))
+    update.message.reply_text(check(get_delta()))
 
+# Read file and return datetime object
+def get_end_date():
+    file = open('file.date', 'r')
+    end_date = datetime.strptime(file.readline(), '%d-%m-%Y %H:%M') # Update end_date
+    return end_date
+
+# Read file and return the days left
+def get_delta():
+    file = open('file.date', 'r')
+    end_date = datetime.strptime(file.readline(), '%d-%m-%Y %H:%M') # Update end_date
+    days_left = end_date - TODAY
+    return days_left
+
+# Function called when bot is used inline
 def inline(bot, update):
-    days_left = result()
-
-    username = update.inline_query.from_user.username
-    if username is None:
-        username = update.inline_query.from_user.first_name
-    phrase = check(days_left)
+    phrase = check(get_delta())
 
     results = []
     results.append(
         InlineQueryResultArticle(
             id=1,
-            title=check(days_left),
+            title=phrase,
             input_message_content=InputTextMessageContent(phrase),
             parse_mode=ParseMode.MARKDOWN)
     )
-
     update.inline_query.answer(results)
 
+# Returns a string according to n of days left
 def check(days_left):
+    adaptive_string = strings.START_STRINGS
+    if (get_end_date().month >= 6 and get_end_date().month < 8) or get_end_date().month >= 11:
+        adaptive_string = strings.END_STRINGS
+
     if days_left.days < 0:
-        ret = f'{strings.PALM_TREE} O semestre de {TODAY.year} da UFSC acabou! {strings.CONFETTI} {strings.HORN}'
+        ret = f'{strings.PALM_TREE} O semestre de {TODAY.year} da UFSC {adaptive_string[0]}! {strings.CONFETTI} {strings.HORN}'
     elif days_left.days == 0:
-        ret = f'{strings.PALM_TREE} O semestre de {TODAY.year} da UFSC acaba em {int(days_left.total_seconds() // 3600)} horas'
+        ret = f'{strings.PALM_TREE} O semestre de {TODAY.year} da UFSC {adaptive_string[1]} em {int(days_left.total_seconds() // 3600)} horas'
     else:
-        ret = f'{strings.PALM_TREE} O semestre de {TODAY.year} da UFSC acaba em {days_left.days} dias'
+        ret = f'{strings.PALM_TREE} O semestre de {TODAY.year} da UFSC {adaptive_string[1]} em {days_left.days} dias'
     return ret
+
+# Used to change the target date
+def set_date(bot, update, job_queue, chat_data):
+    if update.message.chat.id == config.MAINTAINER: # replace with environment
+        contents = update.message.text.strip('/set ')
+        update.message.reply_text("Set date as: " + contents)
+        file = open('file.date', 'w')
+        file.write(contents)
+    else :
+        update.message.reply_text(strings.DENIED)
 
 def get_help(bot, update):
     update.message.reply_text(strings.HELP_TXT)
