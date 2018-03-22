@@ -1,11 +1,12 @@
-import re
+import re, pytz
 import strings
 import config
 
 from datetime import datetime, date
 from telegram import InlineQueryResultArticle, InputTextMessageContent, ParseMode
 
-TODAY = datetime.today()
+tz = pytz.timezone('America/Sao_Paulo')
+TODAY = datetime.now(tz=tz)
 
 def start(bot, update):
     update.message.reply_text(check(get_end_date() - TODAY))
@@ -14,7 +15,7 @@ def start(bot, update):
 def get_end_date():
     file = open('file.date', 'r')
     end_date = datetime.strptime(file.readline(), '%d-%m-%Y %H:%M') # Update end_date
-    return end_date
+    return tz.localize(end_date)
 
 # Function called when bot is used inline
 def inline(bot, update):
@@ -39,7 +40,8 @@ def check(days_left):
     if days_left.days < 0:
         ret = f'{strings.PALM_TREE} O semestre de {get_end_date().year} da UFSC {adaptive_string[0]}! {strings.CONFETTI} {strings.HORN}'
     elif days_left.days == 0:
-        ret = f'{strings.PALM_TREE} O semestre de {get_end_date().year} da UFSC {adaptive_string[1]} em {int(days_left.total_seconds() // 3600)} horas'
+        hours_left = int(days_left.total_seconds() // 3600)
+        ret = f'{strings.PALM_TREE} O semestre de {get_end_date().year} da UFSC {adaptive_string[1]} em {hours_left} horas'
     else:
         ret = f'{strings.PALM_TREE} O semestre de {get_end_date().year} da UFSC {adaptive_string[1]} em {days_left.days} dias'
     return ret
