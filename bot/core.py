@@ -2,6 +2,7 @@ import re, pytz
 import strings
 import config
 
+from logging import info
 from datetime import datetime, date
 from telegram import InlineQueryResultArticle, InputTextMessageContent, ParseMode
 
@@ -9,6 +10,7 @@ tz = pytz.timezone('America/Sao_Paulo')
 
 def start(bot, update):
     update.message.reply_text(check(get_end_date() - today()))
+    info(str(update))
 
 # Read file and return datetime object
 def get_end_date():
@@ -28,6 +30,7 @@ def inline(bot, update):
             input_message_content=InputTextMessageContent(phrase),
             parse_mode=ParseMode.MARKDOWN)
     )
+    info(str(update))
     update.inline_query.answer(results)
 
 # Returns a string according to n of days left
