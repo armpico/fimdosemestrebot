@@ -8,8 +8,8 @@ TODAY = date.today()
 HELP_TXT = """/start - Mostra os dias restantes
 /help - Aparece este texto super útil e sobre como contribuir
 GitHub: https://www.github.com/abarichello/fimdosemestrebot"""
-
 DENIED = 'Unauthorized acess! :/'
+INLINE = 'Este bot está disponível em modo inline, digite @fimdosemestrebot em QUALQUER chat para usar. ' + CONFETTI
 
 START_STRINGS = ['começou', 'começa']
 END_STRINGS = ['terminou', 'termina']

@@ -10,6 +10,7 @@ tz = pytz.timezone('America/Sao_Paulo')
 
 def start(bot, update):
     update.message.reply_text(check(get_end_date() - today()))
+    update.message.reply_text(strings.INLINE)
     info(str(update))
 
 # Read file and return datetime object
