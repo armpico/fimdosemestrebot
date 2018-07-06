@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 def error_callback(bot, update, error):
     logging.error(error)
 
-updater = Updater(token=config.FDS_TOKEN)
+updater = Updater(token=config.FDS_TOKEN, request_kwargs={'read_timeout': 10, 'connect_timeout': 7})
 dp = updater.dispatcher
 job = updater.job_queue
 
