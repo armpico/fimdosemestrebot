@@ -37,16 +37,16 @@ def inline(bot, update):
 # Returns a string according to n of days left
 def check(days_left):
     string = strings.START_STRINGS
-    if (get_end_date().month >= 6 and get_end_date().month < 8) or get_end_date().month >= 11:
+    if (get_end_date().month >= 7 and get_end_date().month < 8) or get_end_date().month >= 11:
         string = strings.END_STRINGS
 
     if days_left.days < 0:
-        ret = f'{strings.PALM_TREE} O semestre de {get_end_date().year} da UFSC {string[0]}! {strings.CONFETTI} {strings.HORN}'
+        ret = f'{strings.PALM_TREE} O semestre {string[2]} da UFSC {string[0]}! {strings.CONFETTI} {strings.HORN}'
     elif days_left.days == 0:
         hours_left = int(days_left.total_seconds() // 3600)
-        ret = f'{strings.PALM_TREE} O semestre de {get_end_date().year} da UFSC {string[1]} em {hours_left} horas'
+        ret = f'{strings.PALM_TREE} O semestre {string[2]} da UFSC {string[1]} em {hours_left} horas'
     else:
-        ret = f'{strings.PALM_TREE} O semestre de {get_end_date().year} da UFSC {string[1]} em {days_left.days} dias'
+        ret = f'{strings.PALM_TREE} O semestre {string[2]} da UFSC {string[1]} em {days_left.days} dias'
     return ret
 
 def today():
