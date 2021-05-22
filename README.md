@@ -1,5 +1,6 @@
 # fimdosemestrebot
-A really silly bot
+Bot que conta quantos dias faltam pra acabar/começar o semestre de aulas da UFSC.
 
 # Como usar?
-Aperte [AQUI](http://t.me/fimdosemestrebot) para me usar e descobrir quantos dias faltam para as férias da UFSC!
+http://t.me/fimdosemestrebot
+Pode ser usado tanto no chat privado com o bot indo até @fimdosemestrebot através da busca e lhe mandando um `/start` ou através do modo inline digitando `@fimdosemestrebot `(em qualquer chat) e clicando na caixa de resultado que aparecer.
