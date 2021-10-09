@@ -49,20 +49,20 @@ def check(days_left):
 
     end_date = get_end_date().strftime("%d/%m/%y")
     end_date_str = f"({end_date})"
-
+    time_left = ''
     if days_left.days < 0:
-        ret = f'{strings.PALM_TREE} O semestre {string[2]} da UFSC {string[0]}! {end_date_str} {strings.CONFETTI} {strings.HORN}'
+        return f'{strings.PALM_TREE} O semestre {string[2]} da UFSC {string[0]}! {end_date_str} {strings.CONFETTI} {strings.HORN}'
     elif days_left.days == 0:
         hours_left = int(days_left.total_seconds() // 3600)
         if hours_left == 1:
-            ret = f'{strings.PALM_TREE} O semestre {string[2]} da UFSC {string[1]} em {hours_left} hora {end_date_str}'
+            time_left = "hora"
         else:
-            ret = f'{strings.PALM_TREE} O semestre {string[2]} da UFSC {string[1]} em {hours_left} horas {end_date_str}'
+            time_left = "horas"
     elif days_left.days == 1:
-        ret = f'{strings.PALM_TREE} O semestre {string[2]} da UFSC {string[1]} em {days_left.days} dia {end_date_str}'
+        time_left = "dia"
     else:
-        ret = f'{strings.PALM_TREE} O semestre {string[2]} da UFSC {string[1]} em {days_left.days} dias {end_date_str}'
-    return ret
+        time_left = "dias"
+    return f'{strings.PALM_TREE} O semestre {string[2]} da UFSC {string[1]} em {days_left.days} {time_left} {end_date_str}'
 
 
 def today():
