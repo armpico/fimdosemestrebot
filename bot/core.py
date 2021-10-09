@@ -37,7 +37,7 @@ def inline(bot, update):
 # Returns a string according to n of days left
 def check(days_left):
     string = strings.START_STRINGS
-    if (get_end_date().month >= 7 and get_end_date().month < 8) or get_end_date().month >= 10:
+    if (get_end_date().month >= 7 and get_end_date().month < 8) or get_end_date().month >= 11:
         string = strings.END_STRINGS
 
     end_date = get_end_date().strftime("%d/%m/%y")
