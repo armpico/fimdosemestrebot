@@ -19,4 +19,6 @@ python -m fimdosemestrebot
 ```
 
 ## Como configurar no telegram:
-`\set 02-10-2021 00:00`
+Utilizar o comando `/set` seguido da data e hora do início do semestre e do final do semestre.
+
+`/set 02-10-2021 00:00 01-12-2021 22:00`
