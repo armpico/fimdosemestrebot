@@ -44,7 +44,7 @@ def check(days_left):
     string = strings.START_STRINGS
     if (
         get_end_date().month >= 7 and get_end_date().month < 8
-    ) or get_end_date().month >= 11:
+        ) or get_end_date().month <= 3:
         string = strings.END_STRINGS
 
     end_date = get_end_date().strftime("%d/%m/%y")
@@ -58,6 +58,7 @@ def check(days_left):
             time_left = "hora"
         else:
             time_left = "horas"
+        return f'{strings.PALM_TREE} O semestre {string[2]} da UFSC {string[1]} em {hours_left} {time_left} {end_date_str}'
     elif days_left.days == 1:
         time_left = "dia"
     else:
